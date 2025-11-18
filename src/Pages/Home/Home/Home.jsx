@@ -1,9 +1,16 @@
 import React from 'react';
+import Banner from '../Banner/Banner';
+import Brands from '../Brands/Brands';
+import Reviews from '../Reviews/Reviews';
+
+const reviewsPromise = fetch('/reviews.json').then(res => res.json());
 
 const Home = () => {
   return (
     <div>
-      <h3>This is a home page</h3>
+      <Banner></Banner>
+      <Brands></Brands>
+      <Reviews reviewsPromise={reviewsPromise}></Reviews>
     </div>
   );
 };
