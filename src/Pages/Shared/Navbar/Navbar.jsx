@@ -1,9 +1,19 @@
 import React from 'react';
 import { MdOutlineMenuOpen } from "react-icons/md";
 import Logo from '../../../Components/Logo';
-import { NavLink } from 'react-router';
+import { Link, NavLink } from 'react-router';
+import useAuth from '../../../hooks/useAuth';
 
 const Navbar = () => {
+  const { user, logOut } = useAuth();
+
+  const handleLogout = () => {
+    logOut()
+      .then(() => console.log('Log out successfully'))
+      .catch(error => {
+        console.log(error);
+      })
+  };
 
   const links = <>
     <li><NavLink to={''}>Services</NavLink></li>
@@ -34,7 +44,12 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        {
+          user ?
+            <a onClick={handleLogout} className="btn">Log Out</a> :
+            <Link to='/login' className="btn">Login</Link>
+        }
+        <Link to='/be-a-rider' className="btn btn-primary text-secondary ml-2.5">Be a rider</Link>
       </div>
     </div>
   );
