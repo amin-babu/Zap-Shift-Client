@@ -18,7 +18,13 @@ const Navbar = () => {
   const links = <>
     <li><NavLink to={''}>Services</NavLink></li>
     <li><NavLink to={''}>About Us</NavLink></li>
+    <li><NavLink to={'/send-percel'}>Send Percel</NavLink></li>
     <li><NavLink to={'/coverage'}>Coverage</NavLink></li>
+    {
+      user && <>
+        <li><NavLink to={'/dashboard/my-parcels'}>My Percels</NavLink></li>
+      </>
+    }
   </>;
 
   return (
@@ -49,7 +55,7 @@ const Navbar = () => {
             <a onClick={handleLogout} className="btn">Log Out</a> :
             <Link to='/login' className="btn">Login</Link>
         }
-        <Link to='/be-a-rider' className="btn btn-primary text-secondary ml-2.5">Be a rider</Link>
+        <Link to='/rider' className="btn btn-primary text-secondary ml-2.5">Be a rider</Link>
       </div>
     </div>
   );

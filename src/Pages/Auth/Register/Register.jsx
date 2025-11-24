@@ -1,13 +1,17 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../../hooks/useAuth';
-import { Link } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import SocialLogin from '../SocialLogin/SocialLogin';
 import axios from 'axios';
 
 const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const { registerUser, updateUserProfile } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  console.log('In register', location);
+
   const handleRegistrarion = (data) => {
     console.log('Testing Data', data.photo[0]);
     const profileImg = data.photo[0];
@@ -15,23 +19,29 @@ const Register = () => {
     registerUser(data.email, data.password)
       .then(result => {
         console.log(result);
-        // store the image and get the photoURL
+
+        // 1. store the image in form data
         const formData = new FormData();
         formData.append('image', profileImg);
+
+        // 2. send the photo to store and get the url
         const imageApiURL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_imgage_host_key}`;
 
         axios.post(imageApiURL, formData)
           .then(res => {
             console.log('After image uploaded', res.data.data.url);
 
-            // update user profile
+            // 3. update user profile to firebase
             const userProfile = {
               displayName: data.name,
               photoURL: res.data.data.url
             };
 
             updateUserProfile(userProfile)
-              .then(() => { console.log('User profile updated done') })
+              .then(() => { 
+                console.log('User profile updated done');
+                navigate(location?.state || '/');
+              })
               .catch(error => console.log(error))
 
           })
@@ -79,7 +89,7 @@ const Register = () => {
             <div><a className="link link-hover">Forgot password?</a></div>
             <button type='submit' className="btn btn-neutral mt-4">Register</button>
           </fieldset>
-          <p>Do you have any account? <Link to='/login' className='underline'>Login</Link></p>
+          <p>Do you have any account? <Link state={location.state} to='/login' className='underline'>Login</Link></p>
         </form>
         <SocialLogin />
       </div>

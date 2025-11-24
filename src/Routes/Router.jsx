@@ -5,6 +5,14 @@ import Coverage from "../Pages/Coverage/Coverage";
 import AuthLayout from "../Layout/AuthLayout";
 import Login from "../Pages/Auth/Login/Login";
 import Register from "../Pages/Auth/Register/Register";
+import Rider from "../Pages/Rider/Rider";
+import PrivateRoute from "./PrivateRoute";
+import SendPercel from "../Pages/SendPercel/SendPercel";
+import DashBoardLayout from "../Layout/DashBoardLayout";
+import MyParcels from "../Pages/DashBoard/MyParcels/MyParcels";
+import Payment from "../Pages/DashBoard/Payment/Payment";
+import PaymentSuccess from "../Pages/DashBoard/Payment/PaymentSuccess";
+import PaymentCancelled from "../Pages/DashBoard/Payment/PaymentCancelled";
 
 export const router = createBrowserRouter([
   {
@@ -16,7 +24,20 @@ export const router = createBrowserRouter([
         Component: Home
       },
       {
-        path: 'coverage',
+        path: '/rider',
+        element: <PrivateRoute>
+          <Rider></Rider>
+        </PrivateRoute>
+      },
+      {
+        path: '/send-percel',
+        element: <PrivateRoute>
+          <SendPercel />
+        </PrivateRoute>,
+        loader: () => fetch('/serviceCenter.json').then(res => res.json())
+      },
+      {
+        path: '/coverage',
         Component: Coverage,
         loader: () => fetch('/serviceCenter.json').then(res => res.json())
       }
@@ -27,13 +48,36 @@ export const router = createBrowserRouter([
     Component: AuthLayout,
     children: [
       {
-        path: 'login',
+        path: '/login',
         Component: Login
-
       },
       {
-        path: 'register',
+        path: '/register',
         Component: Register
+      }
+    ]
+  },
+  {
+    path: '/dashboard',
+    element: (<PrivateRoute>
+      <DashBoardLayout></DashBoardLayout>
+    </PrivateRoute>),
+    children: [
+      {
+        path: 'my-parcels',
+        Component: MyParcels
+      },
+      {
+        path: 'payment/:parcelId',
+        Component: Payment
+      },
+      {
+        path: 'payment-success',
+        element: <PaymentSuccess />
+      },
+      {
+        path: 'payment-cancelled',
+        element: <PaymentCancelled />
       }
     ]
   }
