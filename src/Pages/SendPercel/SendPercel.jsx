@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import useAuth from '../../hooks/useAuth';
@@ -10,7 +10,8 @@ const SendPercel = () => {
   const { register, handleSubmit, control } = useForm();
   const axiosSecure = useAxiosSecure();
   const serviceCenters = useLoaderData();
-  const {user} = useAuth();
+  const navigate = useNavigate();
+  const { user } = useAuth();
 
   const regionsDupicate = serviceCenters.map(c => c.region);
   const regions = [...new Set(regionsDupicate)];
@@ -57,22 +58,26 @@ const SendPercel = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, take it!"
+      confirmButtonText: "Confirm and continue payment."
     }).then((result) => {
       if (result.isConfirmed) {
         // save the info in db
         axiosSecure.post('/parcels', data)
           .then(res => {
             console.log('after saving parcel', res.data);
+            if (res.data.insertedId) {
+              navigate('/dashboard/my-parcels')
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Parcel has created, please pay.",
+                showConfirmButton: false,
+                timer: 2500
+              });
+            }
           })
-        Swal.fire({
-          title: "Parcel Sent",
-          text: "Your parcel has been send.",
-          icon: "success"
-        });
       }
     });
-
   };
 
   return (
