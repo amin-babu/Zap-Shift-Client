@@ -8,10 +8,10 @@ import useAuth from '../../hooks/useAuth';
 const SendPercel = () => {
 
   const { register, handleSubmit, control } = useForm();
-  const axiosSecure = useAxiosSecure();
-  const serviceCenters = useLoaderData();
-  const navigate = useNavigate();
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
+  const serviceCenters = useLoaderData();
 
   const regionsDupicate = serviceCenters.map(c => c.region);
   const regions = [...new Set(regionsDupicate)];

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, NavLink, Outlet } from 'react-router';
-import { CiDeliveryTruck } from "react-icons/ci";
+import { CiCreditCard1, CiDeliveryTruck } from "react-icons/ci";
+import { PiPersonSimpleBikeLight } from "react-icons/pi";
+import { IoHomeOutline } from "react-icons/io5";
 
 const DashBoardLayout = () => {
   return (
@@ -24,31 +26,39 @@ const DashBoardLayout = () => {
         <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
           {/* Sidebar content here */}
           <ul className="menu w-full grow">
-            {/* List item */}
+
+            {/* Home */}
             <li>
-              <Link to='/' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Homepage">
-                {/* Home icon */}
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor" className="my-1.5 inline-block size-4"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
-                <span className="is-drawer-close:hidden">Homepage</span>
-              </Link>
+              <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Home Page" to='/'>
+              <IoHomeOutline size={20}/>
+              <span className="is-drawer-close:hidden">Home Page</span>
+              </NavLink>
             </li>
 
             {/* our dashborad links */}
             <li>
-              <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="MyParcels" to='/dashboard/my-parcels'>
+              <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Parcels" to='/dashboard/my-parcels'>
               <CiDeliveryTruck size={22}/>
               <span className="is-drawer-close:hidden">My parcels</span>
               </NavLink>
             </li>
 
-            {/* List item */}
+            {/* Payment History links */}
             <li>
-              <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Settings">
-                {/* Settings icon */}
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor" className="my-1.5 inline-block size-4"><path d="M20 7h-9"></path><path d="M14 17H5"></path><circle cx="17" cy="17" r="3"></circle><circle cx="7" cy="7" r="3"></circle></svg>
-                <span className="is-drawer-close:hidden">Settings</span>
-              </button>
+              <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment History" to='/dashboard/payment-history'>
+              <CiCreditCard1 size={22}/>
+              <span className="is-drawer-close:hidden">Payment History</span>
+              </NavLink>
             </li>
+
+            {/* Approve Riders */}
+            <li>
+              <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approve Riders" to='/dashboard/approve-riders'>
+              <PiPersonSimpleBikeLight size={22}/>
+              <span className="is-drawer-close:hidden">Approve Riders</span>
+              </NavLink>
+            </li>
+            
           </ul>
         </div>
       </div>
