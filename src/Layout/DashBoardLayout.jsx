@@ -2,9 +2,13 @@ import React from 'react';
 import { Link, NavLink, Outlet } from 'react-router';
 import { CiCreditCard1, CiDeliveryTruck } from "react-icons/ci";
 import { PiPersonSimpleBikeLight } from "react-icons/pi";
-import { IoHomeOutline } from "react-icons/io5";
+import { IoHomeOutline, IoShieldCheckmarkOutline } from "react-icons/io5";
+import { LiaUsersCogSolid } from "react-icons/lia";
+import useRole from '../hooks/useRole';
 
 const DashBoardLayout = () => {
+  const { role } = useRole();
+  console.log('in the dashboard layout', role);
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -30,35 +34,55 @@ const DashBoardLayout = () => {
             {/* Home */}
             <li>
               <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Home Page" to='/'>
-              <IoHomeOutline size={20}/>
-              <span className="is-drawer-close:hidden">Home Page</span>
+                <IoHomeOutline size={20} />
+                <span className="is-drawer-close:hidden">Home Page</span>
               </NavLink>
             </li>
 
             {/* our dashborad links */}
             <li>
               <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Parcels" to='/dashboard/my-parcels'>
-              <CiDeliveryTruck size={22}/>
-              <span className="is-drawer-close:hidden">My parcels</span>
+                <CiDeliveryTruck size={22} />
+                <span className="is-drawer-close:hidden">My parcels</span>
               </NavLink>
             </li>
 
             {/* Payment History links */}
             <li>
               <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment History" to='/dashboard/payment-history'>
-              <CiCreditCard1 size={22}/>
-              <span className="is-drawer-close:hidden">Payment History</span>
+                <CiCreditCard1 size={22} />
+                <span className="is-drawer-close:hidden">Payment History</span>
               </NavLink>
             </li>
 
-            {/* Approve Riders */}
-            <li>
-              <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approve Riders" to='/dashboard/approve-riders'>
-              <PiPersonSimpleBikeLight size={22}/>
-              <span className="is-drawer-close:hidden">Approve Riders</span>
-              </NavLink>
-            </li>
-            
+            {
+              role === 'admin' && <>
+                {/* Users Management */}
+                <li>
+                  <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users Management" to='/dashboard/users-management'>
+                    <LiaUsersCogSolid size={21} />
+                    <span className="is-drawer-close:hidden">Users Management</span>
+                  </NavLink>
+                </li>
+
+                {/* Assign Riders */}
+                <li>
+                  <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Assign Riders" to='/dashboard/assign-riders'>
+                    <IoShieldCheckmarkOutline size={21} />
+                    <span className="is-drawer-close:hidden">Assign Riders</span>
+                  </NavLink>
+                </li>
+
+                {/* Approve Riders */}
+                <li>
+                  <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approve Riders" to='/dashboard/approve-riders'>
+                    <PiPersonSimpleBikeLight size={22} />
+                    <span className="is-drawer-close:hidden">Approve Riders</span>
+                  </NavLink>
+                </li>
+              </>
+            }
+
           </ul>
         </div>
       </div>

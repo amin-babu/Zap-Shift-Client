@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { FiUserCheck } from 'react-icons/fi';
-import { IoPersonRemoveOutline } from 'react-icons/io5';
+import { IoInformationCircleOutline, IoPersonRemoveOutline } from 'react-icons/io5';
 import { GoTrash } from "react-icons/go";
 import Swal from 'sweetalert2';
 
@@ -45,6 +45,8 @@ const ApproveRiders = () => {
     updateRiderStatus(rider, 'Rejected')
   };
 
+  
+
   return (
     <div>
       <h2 className='text-4xl text-secondary'>Riders Pending Approvel: {riders.length}</h2>
@@ -56,7 +58,8 @@ const ApproveRiders = () => {
               <th>Name</th>
               <th>Email</th>
               <th>Address</th>
-              <th>Status</th>
+              <th>Applcation Status</th>
+              <th>Work Status</th>
               <th>Actios</th>
             </tr>
           </thead>
@@ -74,14 +77,16 @@ const ApproveRiders = () => {
                         <div className="badge badge-soft badge-warning border border-[#fdd265]">Pending</div> :
                         (
                           rider.status !== 'Rejected' ?
-                          <div className="badge badge-soft badge-success border border-[#68E5BC]">Approved</div> :
-                          <div className="badge badge-soft badge-error border border-[#F88084]">Rejected</div>
+                            <div className="badge badge-soft badge-success border border-[#68E5BC]">Approved</div> :
+                            <div className="badge badge-soft badge-error border border-[#F88084]">Rejected</div>
                         )
                     }
                   </td>
+                  <td>{rider.workStatus}</td>
                   <td className='space-x-2'>
                     <button onClick={() => handleApproval(rider)} className='btn btn-square'><FiUserCheck size={18} /></button>
                     <button onClick={() => handleRejection(rider)} className='btn btn-square'><IoPersonRemoveOutline size={18} /></button>
+                    <button className='btn btn-square'><IoInformationCircleOutline size={20} /></button>
                     <button className='btn btn-square'><GoTrash size={18} /></button>
                   </td>
                 </tr>
@@ -90,6 +95,8 @@ const ApproveRiders = () => {
           </tbody>
         </table>
       </div>
+
+      
     </div>
   );
 };
